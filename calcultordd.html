@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Redressed&display=swap" rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculator</title>
+    <style>
+         .container {
+            text-align: center;
+            margin-top: 23px;
+            font-family: "Roboto";
+        }
+        
+        table {
+            margin: auto;
+        }
+        
+        #sqr {
+            /* padding: 15px 32px; */
+            width: 186px;
+            /* text-align: center; */
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
+        
+        input {
+            background: white;
+            font-size: 30px;
+            border: 3px solid;
+            border-radius: 5px;
+            border-color: #091921;
+        }
+        
+        button {
+            font-size: 26px;
+            background: white;
+            width: 91px;
+            height: 50px;
+            border-radius: 5px;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #091921;
+            display: block;
+            margin: 8px;
+        }
+        
+        h1 {
+            color: white;
+        }
+        
+        .calculator {
+            border: inline-block;
+        }
+     
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="calculator">
+
+            <table class="grid-container">
+                <h1> calculator</h1>
+                <!-- onkeypress=isInputNo(event) readonly -->
+                <input type="text" name="output" onkeypress="return onlyNumberKey(event)" id="output">
+
+
+
+
+                <tr>
+                    <td class="grid-item"><button> ( </button></td>
+                    <td class="grid-item"><button> ) </button></td>
+                    <!-- <td class="grid-item"><button>AC</button></td> -->
+                    <td class="grid-item"> <input type="button" onclick="location.reload()" value="AC"></td>
+
+                    <td class="grid-item"><button>C</button>
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td class="grid-item"><button> 7 </button></td>
+                    <td class="grid-item"><button> 8 </button></td>
+                    <td class="grid-item"><button> 9 </button></td>
+                    <td class="grid-item"><button>-</button></td>
+
+
+                </tr>
+                <tr>
+                    <td class="grid-item"><button> 4 </button></td>
+                    <td class="grid-item"><button> 5 </button></td>
+                    <td class="grid-item"><button> 6 </button></td>
+                    <td class="grid-item"><button>/</button></td>
+
+
+                </tr>
+                <tr>
+                    <td class="grid-item"><button> 1 </button></td>
+                    <td class="grid-item"><button> 2 </button></td>
+                    <td class="grid-item"><button> 3 </button></td>
+                    <td class="grid-item"><button>*</button></td>
+
+
+                </tr>
+                <tr>
+                    <td class="grid-item"><button> 0 </button></td>
+                    <td class="grid-item"><button> 00 </button></td>
+                    <td class="grid-item"><button> . </button></td>
+
+                    <td class="grid-item"><button>+</button></td>
+
+
+
+                </tr>
+                <tr>
+
+
+                    <td class="grid-item"><button
+                            onclick="output.value = Math.round(( output.value/ output.value) * 100)"> % </button></td>
+                    <td class="grid-item"><input type="button" onclick="output.value=Math.sqrt(eval(output.value))"
+                            value=" √ "></td>
+                    <td class="grid-item"> <input id="myBtn" type="button" onclick="output.value=eval(output.value)"
+                            value="=">
+                    </td>
+                </tr>
+
+                <td class="grid-item"><input type="button" onclick="output.value=Math.sin(eval(output.value))"
+                        value=" sin "></td>
+                <td class="grid-item"><input type="button" onclick="output.value=Math.pow(eval(output.value))"
+                        value=" pow "></td>
+                <td class="grid-item"><input type="button" onclick="output.value=Math.tan(eval(output.value))"
+                        value=" tan "></td>
+                <td class="grid-item"><input type="button" onclick="output.value=Math.cos(eval(output.value))"
+                        value=" cos "></td>
+
+            </table>
+        </div>
+    </div>
+
+</body>
+<script>
+    let output = document.getElementById('output');
+    buttons = document.querySelectorAll('button');
+    let screenValue = '';
+    function onlyNumberKey(evt) {
+        // Only ASCII character in that range allowed
+        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+        if (ASCIICode > 31 && (ASCIICode < 40 || ASCIICode > 62))
+            return false;
+        return true;
+    }
+    
+    output.addEventListener("keyup", function (event) {
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.keyCode === 13) {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            document.getElementById("myBtn").click();
+            console.log("testenter");
+        }
+    });
+
+
+    for (item of buttons) {
+        item.addEventListener('click', (e) => {
+            buttonText = e.target.innerText;
+            console.log(buttonText);
+            if (buttonText == 'AC') {
+                output.value = ""
+            } else if (buttonText == "C") {
+                screenValue = output.value.slice(0, -1);
+                output.value = screenValue
+            }
+            else if (buttonText == '%') {
+                alert("Under Development")
+                // output.value = screenValue
+                // output.value = eval(screenValue);
+            }
+            else if (buttonText == '=') {
+                output.value = eval(screenValue);
+            }
+            else {
+                screenValue += buttonText;
+                output.value = screenValue
+                //  = screenValue;
+            }
+
+        })
+    }
+
+</script>
+
+</html>
